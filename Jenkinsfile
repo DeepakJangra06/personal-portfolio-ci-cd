@@ -2,8 +2,8 @@ pipeline {
     agent any
     
     environment {
-        // Firebase project ID - Update this with your Firebase project ID
-        FIREBASE_PROJECT_ID = 'your-firebase-project-id'
+        // Firebase project ID - Auto-detected from .firebaserc
+        FIREBASE_PROJECT_ID = 'my-personal-portfolio-c74c4'
         NODE_VERSION = '18'
     }
     
