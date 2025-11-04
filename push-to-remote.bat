@@ -11,7 +11,7 @@ echo Please provide your repository URL.
 echo Example: https://github.com/username/repository-name.git
 echo.
 
-set /p REPO_URL="Enter repository URL: "
+set /p REPO_URL="https://github.com/DeepakJangra06/personal-portfolio-ci-cd.git"
 
 if "%REO_URL%"=="" (
     echo Error: Repository URL cannot be empty!
