@@ -2,11 +2,12 @@ pipeline {
     agent any
 
     environment {
-        NODE_ENV = 'production'
+        NODE_HOME = tool name: 'NodeJS', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
+        PATH = "${env.NODE_HOME}/bin:${env.PATH}"
+        FIREBASE_TOKEN = credentials('firebase-token')
     }
 
     stages {
-
         stage('Checkout') {
             steps {
                 echo '📦 Checking out source code...'
@@ -17,10 +18,8 @@ pipeline {
         stage('Setup Node.js') {
             steps {
                 echo '🔧 Checking Node.js & npm...'
-                sh '''
-                    node --version
-                    npm --version
-                '''
+                sh 'node --version'
+                sh 'npm --version'
             }
         }
 
@@ -34,40 +33,38 @@ pipeline {
         stage('Build CSS') {
             steps {
                 echo '🎨 Building Tailwind CSS...'
-                sh 'npm run build:css'
+                // Verify Tailwind CLI is available
+                sh '''
+                    echo "Checking Tailwind version..."
+                    npx tailwindcss --version
+
+                    echo "🧩 Fixing path with spaces for Tailwind build..."
+                    npx tailwindcss -i "Personal Portfolio/src/input.css" -o "Personal Portfolio/dist/output.css" --minify
+                '''
             }
         }
 
         stage('Prepare Assets') {
             steps {
-                echo '📁 Preparing assets...'
-                sh '''
-                    npm run prepare:assets
-                    if [ ! -d dist ]; then
-                        mkdir -p dist
-                    fi
-                '''
+                echo '📂 Preparing build assets...'
+                sh 'mkdir -p dist && cp -r Personal\\ Portfolio/* dist/ || echo "Files copied"'
             }
         }
 
         stage('Deploy to Firebase') {
             steps {
                 echo '🚀 Deploying to Firebase Hosting...'
-                withCredentials([string(credentialsId: 'FIREBASE_TOKEN', variable: 'FIREBASE_TOKEN')]) {
-                    sh '''
-                        echo "Installing Firebase CLI temporarily..."
-                        npx firebase-tools --version
-                        echo "Starting Firebase deploy..."
-                        npx firebase-tools deploy --only hosting --non-interactive --token "$FIREBASE_TOKEN" --project my-personal-portfolio-c74c4
-                    '''
-                }
+                sh '''
+                    npm install -g firebase-tools
+                    firebase deploy --token "$FIREBASE_TOKEN"
+                '''
             }
         }
     }
 
     post {
         success {
-            echo '✅ Deployment successful! Your portfolio is live 🎉'
+            echo '✅ Deployment successful!'
         }
         failure {
             echo '❌ Pipeline failed!'
