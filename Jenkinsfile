@@ -47,7 +47,7 @@ pipeline {
                     npm run prepare:assets || echo "Asset preparation script failed, trying manual copy..."
                     if [ ! -f "Personal Portfolio/Personal Portfolio/dist/main.js" ]; then
                         echo "Manually copying assets..."
-                        cd "Personal Portfolio/Personal Portfolio/dist"
+                        cd "Personal Portfolio/dist"
                         cp ../../../hero-bg.png . 2>/dev/null || echo "hero-bg.png not found"
                         cp ../../../about-photo.png . 2>/dev/null || echo "about-photo.png not found"
                         cp ../../../Updated_Resume_page-0001.jpg . 2>/dev/null || echo "Resume not found"
