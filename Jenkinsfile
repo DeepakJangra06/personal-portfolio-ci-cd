@@ -69,37 +69,15 @@ pipeline {
         }
 
         stage('Deploy to Firebase') {
-    steps {
-        echo '🚀 Deploying to Firebase Hosting...'
-        script {
-            // Ensure Firebase CLI is installed and available
-            sh '''
-                npm install -g firebase-tools || echo "Firebase CLI already installed"
-                
-                # Add npm global bin to PATH (Windows & Linux compatible)
-                if [ -d "$APPDATA/npm" ]; then
-                    export PATH="$APPDATA/npm:$PATH"
-                elif [ -d "$HOME/AppData/Roaming/npm" ]; then
-                    export PATH="$HOME/AppData/Roaming/npm:$PATH"
-                elif [ -d "$HOME/.npm-global/bin" ]; then
-                    export PATH="$HOME/.npm-global/bin:$PATH"
-                fi
-                
-                echo "Firebase CLI version:"
-                firebase --version
-
-                # Deploy to Firebase Hosting
-                if [ -n "${FIREBASE_PROJECT_ID}" ] && [ "${FIREBASE_PROJECT_ID}" != "your-firebase-project-id" ]; then
-                    firebase deploy --only hosting --project ${FIREBASE_PROJECT_ID}
-                else
-                    firebase deploy --only hosting
-                fi
-            '''
-               }
-          }
-      }      
- }
-
+    echo "🚀 Deploying to Firebase Hosting..."
+    script {
+        sh '''
+            echo "🚀 Deploying to Firebase with NPX..."
+            npx firebase-tools --version
+            npx firebase-tools deploy --only hosting --non-interactive
+        '''
+    }
+}
     post {
         success {
             echo '✅ Pipeline executed successfully!'
