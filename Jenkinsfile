@@ -2,11 +2,11 @@ pipeline {
     agent any
 
     environment {
-        FIREBASE_PROJECT_ID = 'my-personal-portfolio-c74c4'
-        NODE_VERSION = '18'
+        NODE_ENV = 'production'
     }
 
     stages {
+
         stage('Checkout') {
             steps {
                 echo '📦 Checking out source code...'
@@ -18,8 +18,8 @@ pipeline {
             steps {
                 echo '🔧 Checking Node.js & npm...'
                 sh '''
-                    node --version || echo "Node.js not found"
-                    npm --version || echo "npm not found"
+                    node --version
+                    npm --version
                 '''
             }
         }
@@ -42,8 +42,8 @@ pipeline {
             steps {
                 echo '📁 Preparing assets...'
                 sh '''
-                    npm run prepare:assets || echo "Fallback: copying assets manually..."
-                    if [ ! -d "dist" ]; then
+                    npm run prepare:assets
+                    if [ ! -d dist ]; then
                         mkdir -p dist
                     fi
                 '''
@@ -53,19 +53,21 @@ pipeline {
         stage('Deploy to Firebase') {
             steps {
                 echo '🚀 Deploying to Firebase Hosting...'
-                sh '''
-                    echo "Installing Firebase CLI temporarily..."
-                    npx firebase-tools --version
-                    echo "Starting Firebase deploy..."
-                    npx firebase-tools deploy --only hosting --non-interactive --project my-personal-portfolio-c74c4
-                '''
+                withCredentials([string(credentialsId: 'FIREBASE_TOKEN', variable: 'FIREBASE_TOKEN')]) {
+                    sh '''
+                        echo "Installing Firebase CLI temporarily..."
+                        npx firebase-tools --version
+                        echo "Starting Firebase deploy..."
+                        npx firebase-tools deploy --only hosting --non-interactive --token "$FIREBASE_TOKEN" --project my-personal-portfolio-c74c4
+                    '''
+                }
             }
         }
     }
 
     post {
         success {
-            echo '✅ Pipeline executed successfully!'
+            echo '✅ Deployment successful! Your portfolio is live 🎉'
         }
         failure {
             echo '❌ Pipeline failed!'
