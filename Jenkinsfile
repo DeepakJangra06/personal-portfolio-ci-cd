@@ -4,7 +4,7 @@ pipeline {
     environment {
         NODEJS_HOME = tool name: 'NodeJS', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
         PATH = "${NODEJS_HOME}/bin:${env.PATH}"
-        FIREBASE_TOKEN = credentials('FIREBASE_TOKEN')
+        FIREBASE_TOKEN = credentials('firebase-token')
     }
 
     stages {
