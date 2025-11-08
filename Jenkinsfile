@@ -2,24 +2,29 @@ pipeline {
     agent any
 
     environment {
-        NODE_HOME = tool name: 'NodeJS', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
-        PATH = "${env.NODE_HOME}/bin:${env.PATH}"
-        FIREBASE_TOKEN = credentials('firebase-token')
+        NODEJS_HOME = tool name: 'NodeJS', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
+        PATH = "${NODEJS_HOME}/bin:${env.PATH}"
+        FIREBASE_TOKEN = credentials('FIREBASE_TOKEN')
     }
 
     stages {
         stage('Checkout') {
             steps {
                 echo '📦 Checking out source code...'
-                checkout scm
+                checkout([$class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[url: 'https://github.com/DeepakJangra06/personal-portfolio-ci-cd.git']]
+                ])
             }
         }
 
         stage('Setup Node.js') {
             steps {
                 echo '🔧 Checking Node.js & npm...'
-                sh 'node --version'
-                sh 'npm --version'
+                sh '''
+                    node --version
+                    npm --version
+                '''
             }
         }
 
@@ -33,38 +38,42 @@ pipeline {
         stage('Build CSS') {
             steps {
                 echo '🎨 Building Tailwind CSS...'
-                // Verify Tailwind CLI is available
                 sh '''
-                    echo "Checking Tailwind version..."
-                    npx tailwindcss --version
-
-                    echo "🧩 Fixing path with spaces for Tailwind build..."
-                    npx tailwindcss -i "Personal Portfolio/src/input.css" -o "Personal Portfolio/dist/output.css" --minify
+                    echo "Building Tailwind CSS for production..."
+                    npx tailwindcss -i ./src/input.css -o ./dist/output.css --minify
+                    echo "✅ Tailwind CSS built successfully!"
                 '''
             }
         }
 
         stage('Prepare Assets') {
             steps {
-                echo '📂 Preparing build assets...'
-                sh 'mkdir -p dist && cp -r Personal\\ Portfolio/* dist/ || echo "Files copied"'
+                echo '🧰 Preparing assets...'
+                sh '''
+                    mkdir -p dist
+                    cp -r ./public/* ./dist/ || true
+                    echo "Assets copied to dist folder."
+                '''
             }
         }
 
         stage('Deploy to Firebase') {
             steps {
                 echo '🚀 Deploying to Firebase Hosting...'
-                sh '''
-                    npm install -g firebase-tools
-                    firebase deploy --token "$FIREBASE_TOKEN"
-                '''
+                withCredentials([string(credentialsId: 'FIREBASE_TOKEN', variable: 'FIREBASE_TOKEN')]) {
+                    sh '''
+                        echo "Starting Firebase deployment..."
+                        npx firebase deploy --only hosting --token "$FIREBASE_TOKEN"
+                        echo "✅ Firebase deployment completed!"
+                    '''
+                }
             }
         }
     }
 
     post {
         success {
-            echo '✅ Deployment successful!'
+            echo '✅ Pipeline completed successfully!'
         }
         failure {
             echo '❌ Pipeline failed!'
