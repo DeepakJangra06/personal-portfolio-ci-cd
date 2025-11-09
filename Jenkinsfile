@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        FIREBASE_PROJECT_ID = 'personal-portfolio-ci-cd'   // 🔹 Your Firebase project ID
+        FIREBASE_PROJECT_ID = 'personal-portfolio-7b1a4'   // 🔹 Your Firebase project ID
         FIREBASE_TOKEN = credentials('firebase-token')     // 🔹 Add your Firebase token in Jenkins credentials
         DEPLOY_BRANCH = 'main'                             // 🔹 Branch that triggers deployment
     }
@@ -48,3 +48,4 @@ pipeline {
         }
     }
 }
+
