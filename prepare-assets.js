@@ -9,7 +9,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Try multiple possible paths (handle different directory structures)
-let DIST_DIR = path.join(__dirname, 'Personal Portfolio', 'Personal Portfolio', 'dist');
+let DIST_DIR = path.join(__dirname, 'Personal Portfolio', 'dist');
 if (!fs.existsSync(DIST_DIR)) {
     DIST_DIR = path.join(__dirname, 'Personal Portfolio', 'dist');
 }
