@@ -40,8 +40,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Animate progress bars when skills section comes into view
     const observerOptions = {
-        threshold: 0.5,
-        rootMargin: '0px 0px -100px 0px'
+        threshold: 0.3,
+        rootMargin: '0px 0px -50px 0px'
     };
 
     const observer = new IntersectionObserver((entries) => {
@@ -50,22 +50,35 @@ document.addEventListener("DOMContentLoaded", function () {
                 const progressBars = entry.target.querySelectorAll('.progress-line span');
                 progressBars.forEach((bar, index) => {
                     setTimeout(() => {
-                        // Get the target width from the CSS class
-                        const parentClass = bar.parentElement.className;
-                        let targetWidth = '0%';
-                        if (parentClass.includes('html')) targetWidth = '90%';
-                        else if (parentClass.includes('css')) targetWidth = '85%';
-                        else if (parentClass.includes('javascript')) targetWidth = '80%';
-                        else if (parentClass.includes('java')) targetWidth = '70%';
-                        else if (parentClass.includes('react')) targetWidth = '75%';
-                        // Tools & Technologies
-                        else if (parentClass.includes('git')) targetWidth = '85%';
-                        else if (parentClass.includes('vscode')) targetWidth = '90%';
-                        else if (parentClass.includes('jenkins')) targetWidth = '80%';
-                        else if (parentClass.includes('firebase')) targetWidth = '70%';
+                        // Get the parent element with class list
+                        const parentElement = bar.parentElement;
+                        const classList = parentElement.classList;
                         
-                        bar.style.width = targetWidth;
-                    }, index * 200);
+                        let targetWidth = '0%';
+                        
+                        // Technical Skills
+                        if (classList.contains('html')) targetWidth = '90%';
+                        else if (classList.contains('css')) targetWidth = '85%';
+                        else if (classList.contains('javascript')) targetWidth = '80%';
+                        else if (classList.contains('java')) targetWidth = '70%';
+                        else if (classList.contains('react')) targetWidth = '75%';
+                        // Tools & Technologies
+                        else if (classList.contains('git')) targetWidth = '85%';
+                        else if (classList.contains('vscode')) targetWidth = '90%';
+                        else if (classList.contains('jenkins')) targetWidth = '80%';
+                        else if (classList.contains('firebase')) targetWidth = '70%';
+                        
+                        // Set the width to trigger animation
+                        if (targetWidth !== '0%') {
+                            bar.style.width = targetWidth;
+                        }
+                    }, index * 150);
+                });
+            } else {
+                // Reset progress bars when section is out of view
+                const progressBars = entry.target.querySelectorAll('.progress-line span');
+                progressBars.forEach(bar => {
+                    bar.style.width = '0%';
                 });
             }
         });
@@ -101,6 +114,61 @@ document.addEventListener("DOMContentLoaded", function () {
                 mobileMenuBtn.classList.remove('active');
                 mobileMenu.classList.remove('active');
             }
+        });
+    }
+
+    // Contact form handling
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values using IDs
+            const name = document.getElementById('contactName').value.trim();
+            const email = document.getElementById('contactEmail').value.trim();
+            const subject = document.getElementById('contactSubject').value.trim();
+            const message = document.getElementById('contactMessage').value.trim();
+            
+            // Validate required fields
+            if (!name || !email || !message) {
+                alert('Please fill in all required fields (Name, Email, and Message).');
+                return;
+            }
+            
+            // Validate email format
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+            
+            // Create mailto link with form data
+            const subjectLine = subject ? subject : 'Contact Form Submission';
+            const emailBody = `Name: ${name}%0D%0AEmail: ${email}%0D%0A%0D%0AMessage:%0D%0A${message.replace(/\n/g, '%0D%0A')}`;
+            const mailtoLink = `mailto:dpkjangra.011@gmail.com?subject=${encodeURIComponent(subjectLine)}&body=${emailBody}`;
+            
+            // Show success message
+            alert('Thank you for your message! Opening your email client...');
+            
+            // Open email client
+            window.location.href = mailtoLink;
+            
+            // Reset form after a short delay
+            setTimeout(() => {
+                contactForm.reset();
+            }, 1000);
+        });
+    }
+
+    // Scroll to top functionality
+    const scrollToTopBtn = document.querySelector('a[href="#"]:last-of-type');
+    if (scrollToTopBtn) {
+        scrollToTopBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         });
     }
 });

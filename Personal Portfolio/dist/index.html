@@ -50,16 +50,16 @@
                 transition: width 1.5s ease-in-out;
                 width: 0;
             }
-            .progress-line.html span { width: 90%; background: linear-gradient(45deg, #c95d2e, #ff6b35); }
-            .progress-line.css span { width: 85%; background: linear-gradient(45deg, #147bbc, #00d4ff); }
-            .progress-line.javascript span { width: 80%; background: linear-gradient(45deg, #b0bc1e, #f7df1e); }
-            .progress-line.react span { width: 75%; background: linear-gradient(45deg, #69bcbc, #61dafb); }
-            .progress-line.java span { width: 70%; background: linear-gradient(45deg, #c32ec9, #ff6b35); }
-            .progress-line.git span { width: 85%; background: linear-gradient(45deg, #f05032, #ee5131); }
-            .progress-line.vscode span { width: 90%; background: linear-gradient(45deg, #0078d4, #007acc); }
-            .progress-line.jenkins span { width: 80%; background: linear-gradient(45deg, #d24939, #f0d43a); }
-            .progress-line.nodejs span { width: 75%; background: linear-gradient(45deg, #339933, #68a063); }
-            .progress-line.firebase span { width: 70%; background: linear-gradient(45deg, #61dafb, #ffca28); }
+            .progress-line.html span { background: linear-gradient(45deg, #c95d2e, #ff6b35); }
+            .progress-line.css span { background: linear-gradient(45deg, #147bbc, #00d4ff); }
+            .progress-line.javascript span { background: linear-gradient(45deg, #b0bc1e, #f7df1e); }
+            .progress-line.react span { background: linear-gradient(45deg, #69bcbc, #61dafb); }
+            .progress-line.java span { background: linear-gradient(45deg, #c32ec9, #ff6b35); }
+            .progress-line.git span { background: linear-gradient(45deg, #f05032, #ee5131); }
+            .progress-line.vscode span { background: linear-gradient(45deg, #0078d4, #007acc); }
+            .progress-line.jenkins span { background: linear-gradient(45deg, #d24939, #f0d43a); }
+            .progress-line.nodejs span { background: linear-gradient(45deg, #339933, #68a063); }
+            .progress-line.firebase span { background: linear-gradient(45deg, #61dafb, #ffca28); }
 
             .mobile-menu { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: #414753; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
             .mobile-menu.active { display: flex; }
@@ -372,13 +372,12 @@
         </div>
 
         <div class="contact-form">
-            <form action="" class="relative">
-                <input type="text" placeholder="Enter Your Name" required class="border-none outline-none w-[90%] p-[18px] bg-[#555557] text-black text-[1rem] font-semibold mb-2 rounded-[0.5rem]">
-                <input type="email" placeholder="Enter Your Email" required class="border-none outline-none w-[90%] p-[18px] bg-[#555557] text-black text-[1rem] font-semibold mb-2 rounded-[0.5rem]">
-
-                <input type="text" placeholder="Enter Your Subject" class="border-none outline-none w-[90%] p-[18px] bg-[#555557] text-black text-[1rem] font-semibold mb-2 rounded-[0.5rem]">
-                <textarea cols="40" rows="10" placeholder="Enter Your Message" required class="border-none outline-none w-[90%] p-[18px] bg-[#555557] text-black text-[1rem] font-semibold mb-2 rounded-[0.5rem]"></textarea>
-                <input type="submit" value="Submit" class="inline-block px-[60px] py-[14px] bg-[#0ef] rounded-[40px] text-[18px] text-[#081b29] tracking-wide no-underline font-semibold shadow-[0_0_5px_#0ef,0_0_25px_#0ef]">
+            <form id="contactForm" action="" class="relative">
+                <input type="text" id="contactName" name="name" placeholder="Enter Your Name" required class="border-none outline-none w-[90%] p-[18px] bg-[#555557] text-black text-[1rem] font-semibold mb-2 rounded-[0.5rem]">
+                <input type="email" id="contactEmail" name="email" placeholder="Enter Your Email" required class="border-none outline-none w-[90%] p-[18px] bg-[#555557] text-black text-[1rem] font-semibold mb-2 rounded-[0.5rem]">
+                <input type="text" id="contactSubject" name="subject" placeholder="Enter Your Subject" class="border-none outline-none w-[90%] p-[18px] bg-[#555557] text-black text-[1rem] font-semibold mb-2 rounded-[0.5rem]">
+                <textarea id="contactMessage" name="message" cols="40" rows="10" placeholder="Enter Your Message" required class="border-none outline-none w-[90%] p-[18px] bg-[#555557] text-black text-[1rem] font-semibold mb-2 rounded-[0.5rem]"></textarea>
+                <input type="submit" value="Submit" class="inline-block px-[60px] py-[14px] bg-[#0ef] rounded-[40px] text-[18px] text-[#081b29] tracking-wide no-underline font-semibold shadow-[0_0_5px_#0ef,0_0_25px_#0ef] cursor-pointer hover:shadow-[0_0_5px_#0ef,0_0_25px_#0ef,0_0_50px_#0ef] transition">
             </form>
         </div>
     </section>
