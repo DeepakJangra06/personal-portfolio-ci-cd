@@ -58,6 +58,11 @@ document.addEventListener("DOMContentLoaded", function () {
                         else if (parentClass.includes('javascript')) targetWidth = '80%';
                         else if (parentClass.includes('java')) targetWidth = '70%';
                         else if (parentClass.includes('react')) targetWidth = '75%';
+                        // Tools & Technologies
+                        else if (parentClass.includes('git')) targetWidth = '85%';
+                        else if (parentClass.includes('vscode')) targetWidth = '90%';
+                        else if (parentClass.includes('jenkins')) targetWidth = '80%';
+                        else if (parentClass.includes('firebase')) targetWidth = '70%';
                         
                         bar.style.width = targetWidth;
                     }, index * 200);
