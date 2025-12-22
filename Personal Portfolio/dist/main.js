@@ -172,6 +172,32 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    // Theme toggle
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeKey = 'preferred-theme';
+
+    const applyTheme = (theme) => {
+        if (theme === 'light') {
+            document.body.classList.add('light-theme');
+            if (themeToggleBtn) themeToggleBtn.textContent = 'Dark Mode';
+        } else {
+            document.body.classList.remove('light-theme');
+            if (themeToggleBtn) themeToggleBtn.textContent = 'Light Mode';
+        }
+    };
+
+    const savedTheme = localStorage.getItem(themeKey);
+    applyTheme(savedTheme === 'light' ? 'light' : 'dark');
+
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+            const isLight = document.body.classList.toggle('light-theme');
+            const newTheme = isLight ? 'light' : 'dark';
+            applyTheme(newTheme);
+            localStorage.setItem(themeKey, newTheme);
+        });
+    }
+
     // Update copyright year dynamically
     const yearElement = document.getElementById("year");
     if (yearElement) {
