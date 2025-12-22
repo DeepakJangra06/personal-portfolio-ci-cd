@@ -171,4 +171,10 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
     }
+
+    // Update copyright year dynamically
+    const yearElement = document.getElementById("year");
+    if (yearElement) {
+        yearElement.textContent = new Date().getFullYear();
+    }
 });
