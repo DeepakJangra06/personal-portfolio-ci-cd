@@ -177,6 +177,26 @@ document.addEventListener("DOMContentLoaded", function () {
     const themeKey = 'preferred-theme';
     const header = document.querySelector('header');
 
+    // Safe localStorage helpers (for some mobile browsers/private mode)
+    const safeStorage = {
+        get(key) {
+            try {
+                return window.localStorage ? localStorage.getItem(key) : null;
+            } catch (e) {
+                return null;
+            }
+        },
+        set(key, value) {
+            try {
+                if (window.localStorage) {
+                    localStorage.setItem(key, value);
+                }
+            } catch (e) {
+                // ignore write errors
+            }
+        }
+    };
+
     // Function to apply theme
     const applyTheme = (isLight) => {
         if (isLight) {
@@ -205,8 +225,8 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     // Load saved theme or default to dark
-    const savedTheme = localStorage.getItem(themeKey);
-    if (savedTheme) {
+    const savedTheme = safeStorage.get(themeKey);
+    if (savedTheme === 'light' || savedTheme === 'dark') {
         applyTheme(savedTheme === 'light');
     } else {
         // Default to dark theme
@@ -215,18 +235,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Theme toggle button click handler
     if (themeToggleBtn) {
-        themeToggleBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            
+        themeToggleBtn.addEventListener('click', function() {
             const isCurrentlyLight = document.body.classList.contains('light-theme');
             const newIsLight = !isCurrentlyLight;
-            
+
             applyTheme(newIsLight);
-            localStorage.setItem(themeKey, newIsLight ? 'light' : 'dark');
+            safeStorage.set(themeKey, newIsLight ? 'light' : 'dark');
         });
-    } else {
-        console.error('Theme toggle button not found!');
     }
 
     // Update copyright year dynamically

@@ -164,9 +164,14 @@
                 body { padding-top: 90px; font-size: 14px; }
                 section:not(#home) { scroll-margin-top: 90px; }
                 #home { padding-top: 90px !important; min-height: 100vh; }
-                header { padding: 15px 5%; }
+                header { padding: 10px 4%; gap: 8px; }
                 nav { display: none; }
                 .hamburger { display: flex; }
+                #theme-toggle {
+                    padding: 6px 10px;
+                    font-size: 12px;
+                    white-space: nowrap;
+                }
                 h1 { font-size: 2.5rem !important; }
                 h2 { font-size: 2rem !important; }
                 h3 { font-size: 1.5rem !important; }
@@ -354,12 +359,10 @@
         </div>
     </section>
 
-    <section class="px-[10%] pt-6 pb-40 mb-40 scroll-mt-[100px] min-h-[160vh]" id="project">
+    <section class="px-[10%] py-16 scroll-mt-[100px]" id="project">
         <div id="porotfolio">
             <div class="pt-4 md:pt-8">
                 <h2 class="text-[60px] leading-[1] text-center font-bold">Latest <span class="text-[#0ef]">Project</span></h2>
-                <br></br>
-
                 <div class="grid [grid-template-columns:repeat(auto-fit,minmax(359px,auto))] gap-[15px]">
                     <div class="relative overflow-hidden rounded-[10px] cursor-pointer group">
                         <img class="w-full rounded-[8px] block transition-transform duration-500 group-hover:scale-105" src="7e3aaade-4be8-47a8-aa6c-fe6f0c220316-cover.png" loading="lazy" decoding="async">
@@ -381,7 +384,7 @@
                     <div class="relative overflow-hidden rounded-[10px] cursor-pointer group">
                         <img class="w-full rounded-[8px] block transition-transform duration-500 group-hover:scale-105" src="web-development1.jpg" loading="lazy" decoding="async">
                         <div class="w-full h-0 bg-[linear-gradient(rgba(0,0,0,0.1),#0ef)] absolute rounded-[12px] left-0 bottom-0 overflow-hidden flex flex-col items-center justify-center text-center px-6 md:px-10 transition-[height] duration-500 group-hover:h-full">
-                            <h5 class="text-black text-[1rem] font-semibold mb-[15px]">Web Deveeloment</h5>
+                            <h5 class="text-black text-[1rem] font-semibold mb-[15px]">Web Development</h5>
                             <p class="text-black text-[1rem] leading-[1.8]">
                                 <b> Skills Applied:- </b>
                                 HTML/CSS/JavaScript,
