@@ -175,31 +175,58 @@ document.addEventListener("DOMContentLoaded", function () {
     // Theme toggle functionality
     const themeToggleBtn = document.getElementById('theme-toggle');
     const themeKey = 'preferred-theme';
+    const header = document.querySelector('header');
 
     // Function to apply theme
     const applyTheme = (isLight) => {
         if (isLight) {
             document.body.classList.add('light-theme');
-            if (themeToggleBtn) themeToggleBtn.textContent = 'Dark Mode';
+            document.body.style.backgroundColor = '#f5f7fa';
+            document.body.style.color = '#1a1a1a';
+            if (header) {
+                header.style.backgroundColor = '#ffffff';
+                header.style.color = '#1a1a1a';
+            }
+            if (themeToggleBtn) {
+                themeToggleBtn.textContent = 'Dark Mode';
+            }
         } else {
             document.body.classList.remove('light-theme');
-            if (themeToggleBtn) themeToggleBtn.textContent = 'Light Mode';
+            document.body.style.backgroundColor = '#081b29';
+            document.body.style.color = '#ededed';
+            if (header) {
+                header.style.backgroundColor = '#414753';
+                header.style.color = '#ededed';
+            }
+            if (themeToggleBtn) {
+                themeToggleBtn.textContent = 'Light Mode';
+            }
         }
     };
 
     // Load saved theme or default to dark
     const savedTheme = localStorage.getItem(themeKey);
-    const isLightTheme = savedTheme === 'light';
-    applyTheme(isLightTheme);
+    if (savedTheme) {
+        applyTheme(savedTheme === 'light');
+    } else {
+        // Default to dark theme
+        applyTheme(false);
+    }
 
     // Theme toggle button click handler
     if (themeToggleBtn) {
-        themeToggleBtn.addEventListener('click', () => {
+        themeToggleBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
             const isCurrentlyLight = document.body.classList.contains('light-theme');
-            const newTheme = !isCurrentlyLight ? 'light' : 'dark';
-            applyTheme(!isCurrentlyLight);
-            localStorage.setItem(themeKey, newTheme);
+            const newIsLight = !isCurrentlyLight;
+            
+            applyTheme(newIsLight);
+            localStorage.setItem(themeKey, newIsLight ? 'light' : 'dark');
         });
+    } else {
+        console.error('Theme toggle button not found!');
     }
 
     // Update copyright year dynamically
