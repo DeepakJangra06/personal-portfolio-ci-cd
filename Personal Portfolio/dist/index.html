@@ -51,27 +51,35 @@
                 color: #ffffff;
             }
             /* Light theme overrides */
-            body.light-theme {
+            body.light-theme,
+            body[data-theme='light'] {
                 background: #f5f7fa !important;
                 color: #1a1a1a !important;
             }
-            body.light-theme.bg-\[#081b29\] {
+            body.light-theme.bg-\[#081b29\],
+            body[data-theme='light'].bg-\[#081b29\] {
                 background: #f5f7fa !important;
             }
-            body.light-theme header {
+            body.light-theme header,
+            body[data-theme='light'] header {
                 background: #ffffff !important;
                 color: #1a1a1a !important;
                 box-shadow: 0 2px 12px rgba(0,0,0,0.1) !important;
             }
-            body.light-theme header.bg-\[#414753\] {
+            body.light-theme header.bg-\[#414753\],
+            body[data-theme='light'] header.bg-\[#414753\] {
                 background: #ffffff !important;
             }
             body.light-theme header a,
-            body.light-theme header button {
+            body.light-theme header button,
+            body[data-theme='light'] header a,
+            body[data-theme='light'] header button {
                 color: #1a1a1a !important;
             }
             body.light-theme .text-\[#ededed\],
-            body.light-theme.text-\[#ededed\] {
+            body.light-theme.text-\[#ededed\],
+            body[data-theme='light'] .text-\[#ededed\],
+            body[data-theme='light'].text-\[#ededed\] {
                 color: #1a1a1a !important;
             }
             body.light-theme h1,
@@ -81,36 +89,53 @@
             body.light-theme h5,
             body.light-theme p,
             body.light-theme span:not(.text),
-            body.light-theme li {
+            body.light-theme li,
+            body[data-theme='light'] h1,
+            body[data-theme='light'] h2,
+            body[data-theme='light'] h3,
+            body[data-theme='light'] h4,
+            body[data-theme='light'] h5,
+            body[data-theme='light'] p,
+            body[data-theme='light'] span:not(.text),
+            body[data-theme='light'] li {
                 color: #1a1a1a !important;
             }
-            body.light-theme .progress-line {
+            body.light-theme .progress-line,
+            body[data-theme='light'] .progress-line {
                 background: #e0e4e8 !important;
             }
             body.light-theme input,
-            body.light-theme textarea {
+            body.light-theme textarea,
+            body[data-theme='light'] input,
+            body[data-theme='light'] textarea {
                 background: #ffffff !important;
                 color: #1a1a1a !important;
                 border: 1px solid #d0d5db !important;
             }
-            body.light-theme .contact-list li {
+            body.light-theme .contact-list li,
+            body[data-theme='light'] .contact-list li {
                 color: #1a1a1a !important;
             }
-            body.light-theme .mobile-menu {
+            body.light-theme .mobile-menu,
+            body[data-theme='light'] .mobile-menu {
                 background: #ffffff !important;
                 box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
             }
-            body.light-theme .mobile-menu a {
+            body.light-theme .mobile-menu a,
+            body[data-theme='light'] .mobile-menu a {
                 color: #1a1a1a !important;
                 border-bottom: 1px solid #e0e4e8 !important;
             }
-            body.light-theme .mobile-menu a:hover {
+            body.light-theme .mobile-menu a:hover,
+            body[data-theme='light'] .mobile-menu a:hover {
                 color: #0ef !important;
             }
-            body.light-theme section {
+            body.light-theme section,
+            body[data-theme='light'] section {
                 background: transparent !important;
             }
-            body.light-theme div[class*="bg-\[rgb"] {
+            body.light-theme div[class*="bg-\[rgb"],
+            body[data-theme='light'] div[class*="bg-\[rgb"] {
                 background: #e8f4f6 !important;
                 color: #1a1a1a !important;
             }

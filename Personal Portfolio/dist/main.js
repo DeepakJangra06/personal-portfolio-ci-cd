@@ -199,8 +199,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Function to apply theme
     const applyTheme = (isLight) => {
+        const themeName = isLight ? 'light' : 'dark';
+        document.body.classList.toggle('light-theme', isLight);
+        document.body.setAttribute('data-theme', themeName);
+
         if (isLight) {
-            document.body.classList.add('light-theme');
             document.body.style.backgroundColor = '#f5f7fa';
             document.body.style.color = '#1a1a1a';
             if (header) {
@@ -211,7 +214,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 themeToggleBtn.textContent = 'Dark Mode';
             }
         } else {
-            document.body.classList.remove('light-theme');
             document.body.style.backgroundColor = '#081b29';
             document.body.style.color = '#ededed';
             if (header) {
