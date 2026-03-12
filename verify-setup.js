@@ -46,12 +46,21 @@ function checkFirebaseConfig() {
     try {
         const jenkinsfile = fs.readFileSync('Jenkinsfile', 'utf8');
         if (jenkinsfile.includes('your-firebase-project-id')) {
-            console.log('  ⚠️  Firebase Project ID not updated in Jenkinsfile');
-            console.log('  📝 Please update FIREBASE_PROJECT_ID in Jenkinsfile');
+            console.log('  ⚠️  Firebase Project ID not updated');
+            console.log('  📝 Update the Jenkins job parameter FIREBASE_PROJECT_ID (or Jenkinsfile defaultValue).');
             checks.push({ name: 'Firebase Project ID', status: 'warning' });
         } else {
-            console.log('  ✅ Firebase Project ID configured');
+            console.log('  ✅ Firebase Project ID configured (Jenkins parameter/defaultValue)');
             checks.push({ name: 'Firebase Project ID', status: 'pass' });
+        }
+
+        if (jenkinsfile.includes("FIREBASE_TOKEN_CREDENTIALS_ID")) {
+            console.log('  ✅ Firebase token credentials ID parameter found');
+            checks.push({ name: 'Firebase Token Credentials ID', status: 'pass' });
+        } else {
+            console.log('  ⚠️  Firebase token credentials parameter not found in Jenkinsfile');
+            console.log('  📝 Ensure Jenkinsfile uses FIREBASE_TOKEN_CREDENTIALS_ID parameter.');
+            checks.push({ name: 'Firebase Token Credentials ID', status: 'warning' });
         }
     } catch (error) {
         console.log('  ❌ Could not read Jenkinsfile');
@@ -211,9 +220,9 @@ console.log('══════════════════════�
 if (allChecksPassed && warnings === 0) {
     console.log('🎉 All checks passed! Your setup is ready for CI/CD!');
     console.log('\n📝 Next steps:');
-    console.log('  1. Update Firebase Project ID in Jenkinsfile');
-    console.log('  2. Push code to Git repository');
-    console.log('  3. Set up Jenkins pipeline');
+    console.log('  1. Push code to Git repository');
+    console.log('  2. Create Jenkins credentials (Firebase token)');
+    console.log('  3. Configure Jenkins pipeline parameters (FIREBASE_PROJECT_ID, FIREBASE_TOKEN_CREDENTIALS_ID)');
     console.log('  4. Run your first build!');
     process.exit(0);
 } else if (allChecksPassed) {

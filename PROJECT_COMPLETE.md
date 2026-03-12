@@ -92,10 +92,9 @@ Personal Portfolio/
 ## 🎯 Next Steps (Action Required)
 
 ### 1. Update Firebase Project ID ⚠️
-   - [ ] Open `Jenkinsfile`
-   - [ ] Find: `FIREBASE_PROJECT_ID = 'your-firebase-project-id'`
-   - [ ] Replace with your actual Firebase project ID
-   - [ ] Save the file
+   - [ ] In Jenkins job parameters, set `FIREBASE_PROJECT_ID` to your Firebase project ID
+   - [ ] (Optional) Or update the default in `Jenkinsfile` parameter `FIREBASE_PROJECT_ID`
+   - [ ] Ensure Jenkins has a **Secret Text** credential for your Firebase token and set `FIREBASE_TOKEN_CREDENTIALS_ID`
 
 ### 2. Initialize Git Repository (Optional)
    ```bash
@@ -116,6 +115,7 @@ Personal Portfolio/
    - [ ] Create new Pipeline job
    - [ ] Point to your Git repository
    - [ ] Set Script Path to `Jenkinsfile`
+   - [ ] Add Jenkins credentials (Secret Text) for Firebase token (Credentials ID used in `FIREBASE_TOKEN_CREDENTIALS_ID`)
 
 ### 5. Run First Build
    - [ ] Click "Build Now" in Jenkins

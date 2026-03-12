@@ -40,9 +40,10 @@ async function setup() {
     if (projectId && projectId.trim() && projectId !== 'your-firebase-project-id') {
         try {
             let jenkinsfile = fs.readFileSync('Jenkinsfile', 'utf8');
+            // Update the Jenkinsfile parameter defaultValue for FIREBASE_PROJECT_ID
             jenkinsfile = jenkinsfile.replace(
-                /FIREBASE_PROJECT_ID = 'your-firebase-project-id'/g,
-                `FIREBASE_PROJECT_ID = '${projectId.trim()}'`
+                /string\\(name:\\s*'FIREBASE_PROJECT_ID',\\s*defaultValue:\\s*'[^']*'/g,
+                `string(name: 'FIREBASE_PROJECT_ID', defaultValue: '${projectId.trim()}'`
             );
             fs.writeFileSync('Jenkinsfile', jenkinsfile);
             console.log('✅ Firebase Project ID updated in Jenkinsfile\n');
@@ -137,16 +138,14 @@ dist/
     
     console.log('✅ Setup script completed!\n');
     console.log('📋 Next Steps:');
-    console.log('  1. Review setup-checklist.md for detailed instructions');
-    console.log('  2. Set up Jenkins server (see JENKINS_SETUP.md)');
-    console.log('  3. Create Jenkins pipeline job');
+    console.log('  1. Push code to Git repository');
+    console.log('  2. In Jenkins, add a Secret Text credential for your Firebase token');
+    console.log('  3. Configure pipeline parameters: FIREBASE_PROJECT_ID + FIREBASE_TOKEN_CREDENTIALS_ID');
     console.log('  4. Run your first build!\n');
     
     console.log('📚 Documentation:');
-    console.log('  - QUICK_START.md - Quick 5-minute setup guide');
-    console.log('  - JENKINS_SETUP.md - Detailed Jenkins configuration');
-    console.log('  - setup-checklist.md - Complete step-by-step checklist');
-    console.log('  - CI_CD_OVERVIEW.md - Pipeline architecture overview\n');
+    console.log('  - GIT_REMOTE_SETUP.md - Push code to GitHub/GitLab/Bitbucket');
+    console.log('  - PROJECT_COMPLETE.md - Project summary and checklist\n');
     
     console.log('🎉 You\'re ready to deploy! Good luck!\n');
     

@@ -125,8 +125,8 @@ git remote -v
 Once your code is pushed to a remote repository:
 
 1. **Copy the repository URL** - You'll need this for Jenkins
-2. **Set up Jenkins** - Follow `JENKINS_SETUP.md`
-3. **Create Jenkins Pipeline** - Use the repository URL
+2. **Set up Jenkins** - Create a Pipeline job and point it at your repo
+3. **Configure Jenkins parameters** - `FIREBASE_PROJECT_ID` and `FIREBASE_TOKEN_CREDENTIALS_ID`
 4. **Run first build** - Your portfolio will deploy automatically!
 
 ---
@@ -186,5 +186,5 @@ git remote set-url origin NEW_URL
 
 ---
 
-**Next**: After pushing to remote, proceed to Jenkins setup in `JENKINS_SETUP.md`
+**Next**: After pushing to remote, proceed to Jenkins setup (see `PROJECT_COMPLETE.md`)
 

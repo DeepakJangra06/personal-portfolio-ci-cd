@@ -15,20 +15,36 @@ pipeline {
         stage('Install & Build') {
             steps {
                 echo '🔧 Installing dependencies and building...'
-                sh '''
-                    npm install
-                    npm run build
-                '''
+                script {
+                    if (isUnix()) {
+                        sh '''
+                            npm install
+                            npm run build
+                        '''
+                    } else {
+                        bat '''
+                            npm install
+                            npm run build
+                        '''
+                    }
+                }
             }
         }
         
         stage('Deploy') {
             steps {
                 echo '🚀 Deploying to Firebase...'
-                sh '''
-                    npm install -g firebase-tools
-                    firebase deploy --only hosting
-                '''
+                script {
+                    if (isUnix()) {
+                        sh '''
+                            npx firebase-tools deploy --only hosting
+                        '''
+                    } else {
+                        bat '''
+                            npx firebase-tools deploy --only hosting
+                        '''
+                    }
+                }
             }
         }
     }

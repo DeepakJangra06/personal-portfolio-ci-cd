@@ -1,10 +1,15 @@
 pipeline {
     agent any
 
+    parameters {
+        string(name: 'FIREBASE_PROJECT_ID', defaultValue: 'personal-portfolio-7b1a4', description: 'Firebase project ID')
+        string(name: 'FIREBASE_TOKEN_CREDENTIALS_ID', defaultValue: 'firebase-token', description: 'Jenkins Credentials ID that stores your Firebase token')
+        string(name: 'DEPLOY_BRANCH', defaultValue: 'main', description: 'Branch name that triggers deployment (multibranch only)')
+    }
+
     environment {
-        FIREBASE_PROJECT_ID = 'personal-portfolio-7b1a4'   // 🔹 Your Firebase project ID
-        FIREBASE_TOKEN = credentials('firebase-token')     // 🔹 Add your Firebase token in Jenkins credentials
-        DEPLOY_BRANCH = 'main'                             // 🔹 Branch that triggers deployment
+        FIREBASE_PROJECT_ID = "${params.FIREBASE_PROJECT_ID}"
+        DEPLOY_BRANCH = "${params.DEPLOY_BRANCH}"
     }
 
     stages {
@@ -18,23 +23,48 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 echo "📦 Installing Node.js dependencies..."
-                bat 'npm install'
+                script {
+                    if (isUnix()) {
+                        sh 'npm install'
+                    } else {
+                        bat 'npm install'
+                    }
+                }
             }
         }
 
         stage('Build Project') {
             steps {
                 echo "⚙️ Building portfolio project..."
-                bat 'npm run build'
+                script {
+                    if (isUnix()) {
+                        sh 'npm run build'
+                    } else {
+                        bat 'npm run build'
+                    }
+                }
             }
         }
 
         stage('Deploy to Firebase Hosting') {
+            when {
+                anyOf {
+                    // If this is not a multibranch pipeline, BRANCH_NAME may be empty → allow deploy
+                    expression { return !env.BRANCH_NAME }
+                    expression { return env.BRANCH_NAME == env.DEPLOY_BRANCH }
+                }
+            }
             steps {
                 echo "🚀 Deploying project to Firebase Hosting..."
-                bat """
-                npx firebase deploy --project %FIREBASE_PROJECT_ID% --token %FIREBASE_TOKEN%
-                """
+                withCredentials([string(credentialsId: params.FIREBASE_TOKEN_CREDENTIALS_ID, variable: 'FIREBASE_TOKEN')]) {
+                    script {
+                        if (isUnix()) {
+                            sh 'npx firebase-tools deploy --project "$FIREBASE_PROJECT_ID" --token "$FIREBASE_TOKEN"'
+                        } else {
+                            bat 'npx firebase-tools deploy --project %FIREBASE_PROJECT_ID% --token %FIREBASE_TOKEN%'
+                        }
+                    }
+                }
             }
         }
     }
